@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/departments/1"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Finance Updated",
+      "description": "Updated description"
+    }
+order: 5000

@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{baseUrl}}/employees/search?ten=hoang"
+method: GET
+queryParams:
+  ten: hoang
+order: 4000

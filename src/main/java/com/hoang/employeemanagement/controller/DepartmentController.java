@@ -2,6 +2,8 @@ package com.hoang.employeemanagement.controller;
 
 import com.hoang.employeemanagement.model.Department;
 import com.hoang.employeemanagement.service.DepartmentService;
+import com.hoang.employeemanagement.exception.ResourceNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,7 @@ public class DepartmentController {
     public ResponseEntity<Department> timDepartmentTheoId(@PathVariable Long id) {
         Optional<Department> department = departmentService.timDepartmentTheoId(id);
         return department.map(ResponseEntity::ok)
-                        .orElseGet(() -> ResponseEntity.notFound().build());
+                        .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
     }
 
     // GET /departments/name/{name} - Lấy phòng ban theo tên
@@ -39,12 +41,12 @@ public class DepartmentController {
     public ResponseEntity<Department> timDepartmentTheoTen(@PathVariable String name) {
         Optional<Department> department = departmentService.timDepartmentTheoTen(name);
         return department.map(ResponseEntity::ok)
-                        .orElseGet(() -> ResponseEntity.notFound().build());
+                        .orElseThrow(() -> new ResourceNotFoundException("Department not found with name: " + name));
     }
 
     // POST /departments - Tạo mới phòng ban
     @PostMapping
-    public ResponseEntity<Department> themDepartment(@RequestBody Department department) {
+    public ResponseEntity<Department> themDepartment(@Valid @RequestBody Department department) {
         Department newDept = departmentService.themDepartment(
                 department.getName(),
                 department.getDescription()
@@ -56,7 +58,7 @@ public class DepartmentController {
     @PutMapping("/{id}")
     public ResponseEntity<Department> capNhatDepartment(
             @PathVariable Long id,
-            @RequestBody Department department) {
+            @Valid @RequestBody Department department) {
 
         Department updated = departmentService.capNhatDepartment(
                 id,
@@ -65,7 +67,7 @@ public class DepartmentController {
         );
 
         if (updated == null) {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException("Department not found with id: " + id);
         }
 
         return ResponseEntity.ok(updated);

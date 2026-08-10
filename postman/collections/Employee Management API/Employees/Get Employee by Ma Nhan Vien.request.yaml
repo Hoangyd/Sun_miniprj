@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/employees/ma/EMP-001"
+method: GET
+order: 3000

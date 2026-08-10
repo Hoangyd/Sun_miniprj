@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{baseUrl}}/employees/search-advanced?ten=hoang&departmentId=1"
+method: GET
+queryParams:
+  ten: hoang
+  departmentId: "1"
+order: 6000

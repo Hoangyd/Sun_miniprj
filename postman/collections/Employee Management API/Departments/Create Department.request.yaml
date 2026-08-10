@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/departments"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Finance",
+      "description": "Finance Department"
+    }
+order: 4000

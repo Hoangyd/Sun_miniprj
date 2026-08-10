@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{baseUrl}}/employees"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "ten": "Phạm Minh Đức",
+      "email": "duc.pham@company.com",
+      "department": {
+        "id": 1
+      }
+    }
+order: 7000

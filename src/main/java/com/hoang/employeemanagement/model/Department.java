@@ -1,6 +1,8 @@
 package com.hoang.employeemanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 
 @Entity
@@ -12,12 +14,16 @@ public class Department {
     private Long id;
 
     @Column(name = "name", nullable = false, length = 100)
+    @NotBlank(message = "Tên phòng ban không được để trống")
+    @Size(min = 2, max = 100, message = "Tên phòng ban phải từ 2 đến 100 ký tự")
     private String name;
 
     @Column(name = "description", length = 255)
+    @Size(max = 255, message = "Mô tả không được vượt quá 255 ký tự")
     private String description;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Employee> employees;
 
     public Department() {

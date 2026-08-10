@@ -2,6 +2,8 @@ package com.hoang.employeemanagement.controller;
 
 import com.hoang.employeemanagement.model.Employee;
 import com.hoang.employeemanagement.service.EmployeeService;
+import com.hoang.employeemanagement.exception.ResourceNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,7 @@ public class EmployeeController {
     public ResponseEntity<Employee> timNhanVienTheoId(@PathVariable Long id) {
         Optional<Employee> employee = employeeService.timNhanVienTheoId(id);
         return employee.map(ResponseEntity::ok)
-                       .orElseGet(() -> ResponseEntity.notFound().build());
+                       .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
     }
 
     // GET /employees/ma/{maNhanVien} - Lấy nhân viên theo mã nhân viên
@@ -80,7 +82,7 @@ public class EmployeeController {
 
     // POST /employees - Tạo mới nhân viên
     @PostMapping
-    public ResponseEntity<Employee> themNhanVien(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> themNhanVien(@Valid @RequestBody Employee employee) {
         Employee employeeMoi = employeeService.themNhanVien(
                 employee.getTen(),
                 employee.getEmail(),
@@ -93,7 +95,7 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity<Employee> capNhatNhanVien(
             @PathVariable Long id,
-            @RequestBody Employee employee) {
+            @Valid @RequestBody Employee employee) {
 
         Employee updated = employeeService.capNhatNhanVien(
                 id,
@@ -103,7 +105,7 @@ public class EmployeeController {
         );
 
         if (updated == null) {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException("Employee not found with id: " + id);
         }
 
         return ResponseEntity.ok(updated);

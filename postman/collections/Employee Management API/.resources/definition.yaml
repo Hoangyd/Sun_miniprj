@@ -1,0 +1,4 @@
+$kind: collection
+description: Module 4 - Spring Boot + JPA API Collection
+variables:
+  baseUrl: http://localhost:8081
