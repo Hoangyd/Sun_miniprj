@@ -4,6 +4,8 @@ import com.hoang.employeemanagement.model.Employee;
 import com.hoang.employeemanagement.model.Department;
 import com.hoang.employeemanagement.repository.EmployeeRepository;
 import com.hoang.employeemanagement.repository.DepartmentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
@@ -33,6 +37,8 @@ public class EmployeeService {
     }
 
     public Employee themNhanVien(String ten, String email, Long departmentId) {
+        logger.info("Creating new employee: ten={}, email={}, departmentId={}", ten, email, departmentId);
+
         long count = employeeRepository.count();
         String maNhanVien = utilityService.taoMaNhanVien((int) (count + 1));
 
@@ -46,7 +52,10 @@ public class EmployeeService {
             department.ifPresent(employee::setDepartment);
         }
 
-        return employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
+        logger.info("Employee created successfully: maNhanVien={}, id={}", savedEmployee.getMaNhanVien(), savedEmployee.getId());
+
+        return savedEmployee;
     }
 
     public Optional<Employee> timNhanVienTheoId(Long id) {
@@ -74,6 +83,8 @@ public class EmployeeService {
     }
 
     public Employee capNhatNhanVien(Long id, String ten, String email, Long departmentId) {
+        logger.info("Updating employee: id={}, ten={}, email={}, departmentId={}", id, ten, email, departmentId);
+
         Optional<Employee> employeeOpt = employeeRepository.findById(id);
 
         if (employeeOpt.isPresent()) {
@@ -88,13 +99,18 @@ public class EmployeeService {
                 Optional<Department> department = departmentRepository.findById(departmentId);
                 department.ifPresent(employee::setDepartment);
             }
-            return employeeRepository.save(employee);
+            Employee updatedEmployee = employeeRepository.save(employee);
+            logger.info("Employee updated successfully: maNhanVien={}", updatedEmployee.getMaNhanVien());
+            return updatedEmployee;
         }
 
+        logger.warn("Employee not found for update: id={}", id);
         return null;
     }
 
     public void xoaNhanVien(Long id) {
+        logger.info("Deleting employee: id={}", id);
         employeeRepository.deleteById(id);
+        logger.info("Employee deleted successfully: id={}", id);
     }
 }
