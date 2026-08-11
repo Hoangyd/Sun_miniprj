@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết nhân viên</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-bottom: 20px; }
+        .back-btn { margin-bottom: 20px; }
+        .back-btn a { color: #007bff; text-decoration: none; }
+        .back-btn a:hover { text-decoration: underline; }
+        .info-group { margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px; }
+        .info-group label { display: block; color: #666; font-size: 12px; margin-bottom: 5px; }
+        .info-group .value { font-size: 16px; color: #333; font-weight: bold; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        a, button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #007bff; color: white; flex: 1; }
+        .btn-primary:hover { background: #0056b3; }
+        .btn-danger { background: #dc3545; color: white; flex: 1; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-secondary { background: #6c757d; color: white; flex: 1; }
+        .btn-secondary:hover { background: #545b62; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-btn">
+            <a href="/employees/list">← Quay lại danh sách</a>
+        </div>
+
+        <h1>👤 Chi tiết Nhân viên</h1>
+
+        <div class="info-group">
+            <label>ID</label>
+            <div class="value" th:text="${employee.id}"></div>
+        </div>
+
+        <div class="info-group">
+            <label>Mã nhân viên</label>
+            <div class="value" th:text="${employee.maNhanVien}"></div>
+        </div>
+
+        <div class="info-group">
+            <label>Tên</label>
+            <div class="value" th:text="${employee.ten}"></div>
+        </div>
+
+        <div class="info-group">
+            <label>Email</label>
+            <div class="value" th:text="${employee.email != null ? employee.email : 'N/A'}"></div>
+        </div>
+
+        <div class="info-group">
+            <label>Phòng ban</label>
+            <div class="value" th:text="${employee.department != null ? employee.department.name : 'Không có'}"></div>
+        </div>
+
+        <div class="btn-group">
+            <a th:href="'/employees/edit/' + ${employee.id}" class="btn-primary">✏️ Chỉnh sửa</a>
+            <a th:href="'/employees/delete/' + ${employee.id}" class="btn-danger" onclick="return confirm('Bạn chắc chắn muốn xóa?')">🗑️ Xóa</a>
+            <a href="/employees/list" class="btn-secondary">❌ Đóng</a>
+        </div>
+    </div>
+</body>
+</html>

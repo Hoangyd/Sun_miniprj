@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm nhân viên</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-bottom: 20px; }
+        .search-section { background: #f9f9f9; padding: 20px; border-radius: 4px; margin-bottom: 20px; }
+        .search-section h3 { color: #555; margin-bottom: 15px; }
+        .search-form { display: flex; gap: 10px; flex-wrap: wrap; }
+        input[type="text"], select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .btn-search { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-search:hover { background: #0056b3; }
+        .btn-reset { padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-reset:hover { background: #545b62; }
+        .back-btn { margin-bottom: 10px; }
+        .back-btn a { color: #007bff; text-decoration: none; }
+        .back-btn a:hover { text-decoration: underline; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: #333; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #f9f9f9; }
+        .empty-state { text-align: center; padding: 40px; color: #666; }
+        .result-count { margin-top: 20px; color: #555; }
+        .btn-action { padding: 5px 10px; margin: 0 2px; border-radius: 3px; text-decoration: none; display: inline-block; font-size: 12px; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-btn">
+            <a href="/employees/list">← Quay lại danh sách</a>
+        </div>
+
+        <h1>🔍 Tìm kiếm Nhân viên</h1>
+
+        <div class="search-section">
+            <h3>Tiêu chí tìm kiếm</h3>
+            <form method="get" action="/employees/search" class="search-form">
+                <input type="text" name="ten" th:value="${searchTen}" placeholder="Tên nhân viên...">
+                <select name="departmentId">
+                    <option value="">Tất cả phòng ban</option>
+                    <option th:each="dept : ${departments}"
+                            th:value="${dept.id}"
+                            th:text="${dept.name}"
+                            th:selected="${searchDepartmentId == dept.id}"></option>
+                </select>
+                <button type="submit" class="btn-search">Tìm kiếm</button>
+                <a href="/employees/search" class="btn-reset">Xóa bộ lọc</a>
+            </form>
+        </div>
+
+        <div class="result-count" th:if="${employees != null}">
+            <strong>Kết quả: <span th:text="${employees.size()}"></span> nhân viên</strong>
+        </div>
+
+        <table th:if="${employees != null && employees.size() > 0}">
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Mã NV</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Phòng ban</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="emp : ${employees}">
+                    <td th:text="${emp.id}"></td>
+                    <td th:text="${emp.maNhanVien}"></td>
+                    <td th:text="${emp.ten}"></td>
+                    <td th:text="${emp.email}"></td>
+                    <td th:text="${emp.department != null ? emp.department.name : 'N/A'}"></td>
+                    <td>
+                        <a th:href="'/employees/view/' + ${emp.id}" class="btn-action btn-info">Xem</a>
+                        <a th:href="'/employees/edit/' + ${emp.id}" class="btn-action btn-info">Sửa</a>
+                        <a th:href="'/employees/delete/' + ${emp.id}" class="btn-action btn-danger" onclick="return confirm('Xóa?')">Xóa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" th:if="${employees == null || employees.size() == 0}">
+            <p>😕 Không tìm thấy nhân viên nào</p>
+        </div>
+    </div>
+</body>
+</html>

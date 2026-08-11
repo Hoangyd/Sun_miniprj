@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách nhân viên</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-bottom: 20px; }
+        .btn-group { margin-bottom: 20px; display: flex; gap: 10px; }
+        a.btn, button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-primary:hover { background: #0056b3; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-info:hover { background: #117a8b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #333; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #f9f9f9; }
+        .empty-state { text-align: center; padding: 40px; color: #666; }
+        .search-box { margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px; }
+        .search-box input, .search-box select { padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .success { color: #28a745; padding: 10px; background: #d4edda; border-radius: 4px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Danh sách Nhân viên</h1>
+
+        <div class="btn-group">
+            <a href="/employees/add" class="btn btn-primary">➕ Thêm nhân viên mới</a>
+            <a href="/employees/search" class="btn btn-info">🔍 Tìm kiếm</a>
+        </div>
+
+        <div class="search-box">
+            <h3>Tìm kiếm nhanh</h3>
+            <form method="get" action="/employees/search" style="display: flex;">
+                <input type="text" name="ten" placeholder="Nhập tên nhân viên..." style="flex: 1;">
+                <select name="departmentId" style="margin-left: 10px;">
+                    <option value="">Tất cả phòng ban</option>
+                    <option th:each="dept : ${departments}" th:value="${dept.id}" th:text="${dept.name}"></option>
+                </select>
+                <button type="submit" class="btn btn-info" style="margin-left: 10px;">Tìm</button>
+            </form>
+        </div>
+
+        <table th:if="${employees != null && employees.size() > 0}">
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Mã NV</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Phòng ban</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="emp : ${employees}">
+                    <td th:text="${emp.id}"></td>
+                    <td th:text="${emp.maNhanVien}"></td>
+                    <td th:text="${emp.ten}"></td>
+                    <td th:text="${emp.email}"></td>
+                    <td th:text="${emp.department != null ? emp.department.name : 'N/A'}"></td>
+                    <td>
+                        <a th:href="'/employees/view/' + ${emp.id}" class="btn btn-info" style="padding: 5px 10px;">👁️ Xem</a>
+                        <a th:href="'/employees/edit/' + ${emp.id}" class="btn btn-primary" style="padding: 5px 10px;">✏️ Sửa</a>
+                        <a th:href="'/employees/delete/' + ${emp.id}" class="btn btn-danger" style="padding: 5px 10px;" onclick="return confirm('Bạn chắc chắn muốn xóa?')">🗑️ Xóa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" th:if="${employees == null || employees.size() == 0}">
+            <p>Không có nhân viên nào</p>
+        </div>
+    </div>
+</body>
+</html>
