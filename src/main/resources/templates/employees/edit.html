@@ -28,12 +28,12 @@
 <body>
     <div class="container">
         <div class="back-btn">
-            <a href="/employees/list">← Quay lại danh sách</a>
+            <a href="/web/employees/list">← Quay lại danh sách</a>
         </div>
 
         <h1>✏️ Chỉnh sửa Nhân viên</h1>
 
-        <form th:action="@{'/employees/edit/' + ${employee.id}}" th:object="${employee}" method="post">
+        <form th:action="@{'/web/employees/edit/' + ${employee.id}}" th:object="${employee}" method="post">
             <div class="form-group">
                 <label>ID</label>
                 <input type="text" th:value="${employee.id}" disabled>
@@ -69,7 +69,7 @@
 
             <div class="btn-group">
                 <button type="submit" class="btn-primary">💾 Cập nhật</button>
-                <a href="/employees/list" class="btn-secondary">❌ Hủy</a>
+                <a href="/web/employees/list" class="btn-secondary">❌ Hủy</a>
             </div>
         </form>
     </div>

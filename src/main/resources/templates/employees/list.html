@@ -32,8 +32,8 @@
         <h1>📋 Danh sách Nhân viên</h1>
 
         <div class="btn-group">
-            <a href="/employees/add" class="btn btn-primary">➕ Thêm nhân viên mới</a>
-            <a href="/employees/search" class="btn btn-info">🔍 Tìm kiếm</a>
+            <a href="/web/employees/add" class="btn btn-primary">➕ Thêm nhân viên mới</a>
+            <a href="/web/employees/search" class="btn btn-info">🔍 Tìm kiếm</a>
         </div>
 
         <div class="search-box">
@@ -67,9 +67,9 @@
                     <td th:text="${emp.email}"></td>
                     <td th:text="${emp.department != null ? emp.department.name : 'N/A'}"></td>
                     <td>
-                        <a th:href="'/employees/view/' + ${emp.id}" class="btn btn-info" style="padding: 5px 10px;">👁️ Xem</a>
-                        <a th:href="'/employees/edit/' + ${emp.id}" class="btn btn-primary" style="padding: 5px 10px;">✏️ Sửa</a>
-                        <a th:href="'/employees/delete/' + ${emp.id}" class="btn btn-danger" style="padding: 5px 10px;" onclick="return confirm('Bạn chắc chắn muốn xóa?')">🗑️ Xóa</a>
+                        <a th:href="'/web/employees/view/' + ${emp.id}" class="btn btn-info" style="padding: 5px 10px;">👁️ Xem</a>
+                        <a th:href="'/web/employees/edit/' + ${emp.id}" class="btn btn-primary" style="padding: 5px 10px;">✏️ Sửa</a>
+                        <a th:href="'/web/employees/delete/' + ${emp.id}" class="btn btn-danger" style="padding: 5px 10px;" onclick="return confirm('Bạn chắc chắn muốn xóa?')">🗑️ Xóa</a>
                     </td>
                 </tr>
             </tbody>

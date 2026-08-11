@@ -28,7 +28,7 @@
 <body>
     <div class="container">
         <div class="back-btn">
-            <a href="/employees/list">← Quay lại danh sách</a>
+            <a href="/web/employees/list">← Quay lại danh sách</a>
         </div>
 
         <h1>👤 Chi tiết Nhân viên</h1>
@@ -59,9 +59,9 @@
         </div>
 
         <div class="btn-group">
-            <a th:href="'/employees/edit/' + ${employee.id}" class="btn-primary">✏️ Chỉnh sửa</a>
-            <a th:href="'/employees/delete/' + ${employee.id}" class="btn-danger" onclick="return confirm('Bạn chắc chắn muốn xóa?')">🗑️ Xóa</a>
-            <a href="/employees/list" class="btn-secondary">❌ Đóng</a>
+            <a th:href="'/web/employees/edit/' + ${employee.id}" class="btn-primary">✏️ Chỉnh sửa</a>
+            <a th:href="'/web/employees/delete/' + ${employee.id}" class="btn-danger" onclick="return confirm('Bạn chắc chắn muốn xóa?')">🗑️ Xóa</a>
+            <a href="/web/employees/list" class="btn-secondary">❌ Đóng</a>
         </div>
     </div>
 </body>

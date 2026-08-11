@@ -34,14 +34,14 @@
 <body>
     <div class="container">
         <div class="back-btn">
-            <a href="/employees/list">← Quay lại danh sách</a>
+            <a href="/web/employees/list">← Quay lại danh sách</a>
         </div>
 
         <h1>🔍 Tìm kiếm Nhân viên</h1>
 
         <div class="search-section">
             <h3>Tiêu chí tìm kiếm</h3>
-            <form method="get" action="/employees/search" class="search-form">
+            <form method="get" action="/web/employees/search" class="search-form">
                 <input type="text" name="ten" th:value="${searchTen}" placeholder="Tên nhân viên...">
                 <select name="departmentId">
                     <option value="">Tất cả phòng ban</option>
@@ -78,9 +78,9 @@
                     <td th:text="${emp.email}"></td>
                     <td th:text="${emp.department != null ? emp.department.name : 'N/A'}"></td>
                     <td>
-                        <a th:href="'/employees/view/' + ${emp.id}" class="btn-action btn-info">Xem</a>
-                        <a th:href="'/employees/edit/' + ${emp.id}" class="btn-action btn-info">Sửa</a>
-                        <a th:href="'/employees/delete/' + ${emp.id}" class="btn-action btn-danger" onclick="return confirm('Xóa?')">Xóa</a>
+                        <a th:href="'/web/employees/view/' + ${emp.id}" class="btn-action btn-info">Xem</a>
+                        <a th:href="'/web/employees/edit/' + ${emp.id}" class="btn-action btn-info">Sửa</a>
+                        <a th:href="'/web/employees/delete/' + ${emp.id}" class="btn-action btn-danger" onclick="return confirm('Xóa?')">Xóa</a>
                     </td>
                 </tr>
             </tbody>
