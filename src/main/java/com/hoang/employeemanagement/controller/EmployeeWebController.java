@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/employees")
+@RequestMapping("/web/employees")
 public class EmployeeWebController {
 
     private final EmployeeService employeeService;
@@ -68,7 +68,7 @@ public class EmployeeWebController {
                 departmentId
         );
 
-        return "redirect:/employees/list";
+        return "redirect:/web/employees/list";
     }
 
     // GET /employees/search - Tìm kiếm nhân viên
@@ -113,7 +113,7 @@ public class EmployeeWebController {
             return "employees/view";
         }
 
-        return "redirect:/employees/list";
+        return "redirect:/web/employees/list";
     }
 
     // GET /employees/edit/{id} - Form chỉnh sửa nhân viên
@@ -130,7 +130,7 @@ public class EmployeeWebController {
             return "employees/edit";
         }
 
-        return "redirect:/employees/list";
+        return "redirect:/web/employees/list";
     }
 
     // POST /employees/edit/{id} - Xử lý cập nhật nhân viên
@@ -150,13 +150,13 @@ public class EmployeeWebController {
         // Cập nhật nhân viên
         employeeService.capNhatNhanVien(id, employee.getTen(), employee.getEmail(), departmentId);
 
-        return "redirect:/employees/list";
+        return "redirect:/web/employees/list";
     }
 
     // GET /employees/delete/{id} - Xóa nhân viên
     @GetMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
         employeeService.xoaNhanVien(id);
-        return "redirect:/employees/list";
+        return "redirect:/web/employees/list";
     }
 }
