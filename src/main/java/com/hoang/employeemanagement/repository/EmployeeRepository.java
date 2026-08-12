@@ -1,6 +1,7 @@
 package com.hoang.employeemanagement.repository;
 
 import com.hoang.employeemanagement.model.Employee;
+import com.hoang.employeemanagement.dto.DepartmentStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,4 +25,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("SELECT e FROM Employee e WHERE LOWER(e.ten) LIKE LOWER(CONCAT('%', :ten, '%')) AND e.department.id = :departmentId")
     List<Employee> findByTenAndDepartment(@Param("ten") String ten, @Param("departmentId") Long departmentId);
+
+    @Query("SELECT new com.hoang.employeemanagement.dto.DepartmentStatistics(d.id, d.name, COUNT(e)) " +
+           "FROM Department d LEFT JOIN d.employees e " +
+           "GROUP BY d.id, d.name " +
+           "ORDER BY d.name")
+    List<DepartmentStatistics> getEmployeeCountByDepartment();
 }

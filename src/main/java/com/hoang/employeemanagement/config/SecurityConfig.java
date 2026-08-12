@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/employees/report/count").permitAll()
+                        .requestMatchers("/employees/statistics").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/web/**").permitAll()
                         .requestMatchers("GET", "/employees").hasAnyRole("USER", "ADMIN")

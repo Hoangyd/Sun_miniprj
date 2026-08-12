@@ -2,7 +2,9 @@ package com.hoang.employeemanagement.controller;
 
 import com.hoang.employeemanagement.model.Employee;
 import com.hoang.employeemanagement.dto.EmployeeCountReport;
+import com.hoang.employeemanagement.dto.EmployeeStatistics;
 import com.hoang.employeemanagement.service.EmployeeService;
+import com.hoang.employeemanagement.service.ReportService;
 import com.hoang.employeemanagement.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,11 @@ import java.util.Optional;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final ReportService reportService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ReportService reportService) {
         this.employeeService = employeeService;
+        this.reportService = reportService;
     }
 
     // GET /employees - Lấy tất cả nhân viên
@@ -29,11 +33,18 @@ public class EmployeeController {
         return ResponseEntity.ok(danhSach);
     }
 
-    // GET /employees/report/count - Báo cáo tổng số nhân viên (cached 1 phút)
+    // GET /employees/report/count - Báo cáo tổng số nhân viên (cached)
     @GetMapping("/report/count")
     public ResponseEntity<EmployeeCountReport> layTongSoNhanVien() {
         long count = employeeService.layTongSoNhanVien();
         return ResponseEntity.ok(new EmployeeCountReport(count));
+    }
+
+    // GET /employees/statistics - Thống kê nhân viên theo phòng ban (cached)
+    @GetMapping("/statistics")
+    public ResponseEntity<EmployeeStatistics> layThongKeNhanVien() {
+        EmployeeStatistics stats = reportService.getEmployeeStatistics();
+        return ResponseEntity.ok(stats);
     }
 
     // GET /employees/{id} - Lấy nhân viên theo ID

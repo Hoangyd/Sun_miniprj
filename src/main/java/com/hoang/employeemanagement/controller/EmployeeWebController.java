@@ -2,8 +2,10 @@ package com.hoang.employeemanagement.controller;
 
 import com.hoang.employeemanagement.model.Employee;
 import com.hoang.employeemanagement.model.Department;
+import com.hoang.employeemanagement.dto.EmployeeStatistics;
 import com.hoang.employeemanagement.service.EmployeeService;
 import com.hoang.employeemanagement.service.DepartmentService;
+import com.hoang.employeemanagement.service.ReportService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,12 @@ public class EmployeeWebController {
 
     private final EmployeeService employeeService;
     private final DepartmentService departmentService;
+    private final ReportService reportService;
 
-    public EmployeeWebController(EmployeeService employeeService, DepartmentService departmentService) {
+    public EmployeeWebController(EmployeeService employeeService, DepartmentService departmentService, ReportService reportService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
+        this.reportService = reportService;
     }
 
     // GET /employees/list - Hiển thị danh sách nhân viên
@@ -158,5 +162,13 @@ public class EmployeeWebController {
     public String deleteEmployee(@PathVariable Long id) {
         employeeService.xoaNhanVien(id);
         return "redirect:/web/employees/list";
+    }
+
+    // GET /employees/statistics - Hiển thị thống kê nhân viên
+    @GetMapping("/statistics")
+    public String showStatistics(Model model) {
+        EmployeeStatistics stats = reportService.getEmployeeStatistics();
+        model.addAttribute("stats", stats);
+        return "employees/statistics";
     }
 }
