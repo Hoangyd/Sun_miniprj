@@ -6,6 +6,7 @@ import com.hoang.employeemanagement.repository.EmployeeRepository;
 import com.hoang.employeemanagement.repository.DepartmentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,12 @@ public class EmployeeService {
 
     public List<Employee> layDanhSachNhanVien() {
         return employeeRepository.findAll();
+    }
+
+    @Cacheable(value = "employeeCount", cacheManager = "cacheManager")
+    public long layTongSoNhanVien() {
+        logger.info("Fetching total employee count (not from cache)");
+        return employeeRepository.count();
     }
 
     public Employee themNhanVien(String ten) {

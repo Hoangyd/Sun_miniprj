@@ -26,6 +26,20 @@ spring:
   thymeleaf:
     cache: true
 
+  cache:
+    type: simple
+    cache-names:
+      - employeeCount
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info
+  endpoint:
+    health:
+      show-details: when-authorized
+
 logging:
   level:
     root: WARN

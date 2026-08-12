@@ -21,6 +21,20 @@ spring:
   thymeleaf:
     cache: false
 
+  cache:
+    type: simple
+    cache-names:
+      - employeeCount
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info, prometheus
+  endpoint:
+    health:
+      show-details: always
+
 logging:
   level:
     root: INFO

@@ -1,6 +1,7 @@
 package com.hoang.employeemanagement.controller;
 
 import com.hoang.employeemanagement.model.Employee;
+import com.hoang.employeemanagement.dto.EmployeeCountReport;
 import com.hoang.employeemanagement.service.EmployeeService;
 import com.hoang.employeemanagement.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
@@ -26,6 +27,13 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> layDanhSachNhanVien() {
         List<Employee> danhSach = employeeService.layDanhSachNhanVien();
         return ResponseEntity.ok(danhSach);
+    }
+
+    // GET /employees/report/count - Báo cáo tổng số nhân viên (cached 1 phút)
+    @GetMapping("/report/count")
+    public ResponseEntity<EmployeeCountReport> layTongSoNhanVien() {
+        long count = employeeService.layTongSoNhanVien();
+        return ResponseEntity.ok(new EmployeeCountReport(count));
     }
 
     // GET /employees/{id} - Lấy nhân viên theo ID
