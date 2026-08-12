@@ -26,6 +26,10 @@ spring:
     cache-names:
       - employeeCount
 
+jwt:
+  secret: mySecretKeyForJwtTokenGenerationAndValidation12345
+  expiration: 3600000
+
 management:
   endpoints:
     web:
